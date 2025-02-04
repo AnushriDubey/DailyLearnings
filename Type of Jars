@@ -7,6 +7,49 @@ Hollow – The inverse of thin. It contains only the bits needed to run your app
 
 Fat/Uber – Contains the bit you literally write yourself plus the direct dependencies of your application PLUS the bits needed to run your application “on its own”.
 
+The code you shared will not directly generate a "fat JAR" or a "thin JAR" on its own. To determine whether the resulting JAR is fat or thin, it depends on how the entire Gradle build process is configured.
+
+Let’s break it down:
+
+1. Thin JAR:
+A thin JAR is typically a JAR that only contains the compiled classes of your application and possibly some resources (like the configuration you mentioned). It does not include external dependencies inside the JAR itself. In this case, if you're using just the basic jar task with no additional configuration for including dependencies, you would get a thin JAR.
+
+In the code you provided, if you're only adding the contents of ./src/resources/config to the META-INF/spring directory, and no additional dependencies are included in the JAR, the resulting file would be a thin JAR.
+2. Fat JAR:
+A fat JAR (also known as an "uber JAR") is a JAR file that includes all the dependencies (external libraries) along with the application’s own classes and resources. If you're using Gradle to build an application and want to create a fat JAR, you would typically need to use a plugin like the Shadow Plugin or Spring Boot Plugin to bundle all dependencies into a single JAR.
+
+If you wanted to create a fat JAR, you would need something like this in your Gradle build file:
+
+Example using the Shadow Plugin:
+
+groovy
+Copy
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+shadowJar {
+    baseName = 'my-fat-jar'
+    classifier = null
+    version = '1.0.0'
+}
+Example using Spring Boot: If you're building a Spring Boot app, you'd typically use the Spring Boot plugin, and it would create a fat JAR by default.
+
+groovy
+Copy
+plugins {
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+bootJar {
+    baseName = 'my-app'
+    version = '1.0.0'
+}
+Conclusion:
+Based on the code you provided, you will get a thin JAR because the configuration is simply copying resources into the JAR without including external dependencies. 
+If you want to create a fat JAR, you would need to use additional plugins or configuration that packages dependencies along with the application code.
+
 
 https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber
 
