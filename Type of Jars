@@ -1,0 +1,8 @@
+The different names are just ways of packaging Java applications.
+Skinny – Contains only the bits you literally type into your code editor, and nothing else.
+
+Thin – Contains all of the above plus the application’s direct dependencies of your application (db drivers, utility libraries, etc.).
+
+Hollow – The inverse of thin. It contains only the bits needed to run your application but does not contain the application itself. Basically a pre-packaged “application server” to which you can later deploy your application, in the same style as traditional Java EE application servers, but with important differences.
+
+Fat/Uber – Contains the bit you literally write yourself plus the direct dependencies of your application PLUS the bits needed to run your application “on its own”.
